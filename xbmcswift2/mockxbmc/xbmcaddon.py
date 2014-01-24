@@ -13,9 +13,12 @@ class Addon(object):
         # In CLI mode, xbmcswift2 must be run from the root of the addon
         # directory, so we can rely on getcwd() being correct.
         addonxml = os.path.join(os.getcwd(), 'addon.xml')
+        id = id or utils.get_addon_id(addonxml)
         self._info = {
-            'id': id or utils.get_addon_id(addonxml),
+            'id': id,
             'name': utils.get_addon_name(addonxml),
+            'profile': 'special://profile/addon_data/%s/' % id,
+            'path': 'special://home/addons/%s' % id
         }
         self._strings = {}
         self._settings = {}
@@ -29,7 +32,7 @@ class Addon(object):
 
     def getLocalizedString(self, id):
         key = str(id)
-        assert key in self._strings, 'id not found in English/strings.xml.'
+        assert key in self._strings, 'id not found in English/strings.po or strings.xml.'
         return self._strings[key]
 
     def getSetting(self, id):
