@@ -38,6 +38,25 @@ class TestInit(TestCase):
         self.assertEqual(plugin.added_items, [])
         self.assertRaises(Exception, getattr, plugin, 'handle')
         self.assertRaises(Exception, getattr, plugin, 'request')
+        #Test loading from strings.po
+        self.assertEqual(plugin.addon.getLocalizedString(30100),'View all results')
+        
+        addon_profile = xbmcswift2.xbmc.translatePath(plugin.addon.getAddonInfo('profile'))
+        self.assertTrue(os.path.isdir(addon_profile))
+        
+        addon_path = xbmcswift2.xbmc.translatePath(plugin.addon.getAddonInfo('path'))
+        if not os.path.exists(addon_path): os.makedirs(addon_path)
+        self.assertTrue(os.path.isdir(addon_path)) #This is probably unnecessary
+        
+    def test_init_cli_mode_no_strings_po(self):
+        name = 'Hello XBMC'
+        plugin_id = 'plugin.video.helloxbmc'
+        path = os.path.join(os.path.dirname(__file__), 'data', 'plugin_no_strings_po', 'addon.py')
+        with preserve_cwd(os.path.dirname(path)):
+            plugin = Plugin(name, plugin_id, path)
+        #Test loading from strings.xml
+        self.assertEqual(plugin.addon.getLocalizedString(30100),'View all results')
+
 
     def test_init_cli_mode_default_args(self):
         name = 'Hello XBMC'

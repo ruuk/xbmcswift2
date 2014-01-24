@@ -158,7 +158,7 @@ class XBMCMixin(object):
         return os.path.join(xbmc.translatePath('special://temp/'), path)
 
     def get_string(self, stringid):
-        '''Returns the localized string from strings.xml for the given
+        '''Returns the localized string from strings.po or strings.xml for the given
         stringid.
         '''
         stringid = int(stringid)
