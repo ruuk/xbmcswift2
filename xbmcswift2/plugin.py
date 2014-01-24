@@ -119,7 +119,7 @@ class Plugin(XBMCMixin):
             else:
                 addon_dir = os.getcwd()
             strings_fn = os.path.join(addon_dir, 'resources', 'language',
-                                      'English', 'strings.xml')
+                                      'English', 'strings.po')
             utils.load_addon_strings(self._addon, strings_fn)
 
     @property
